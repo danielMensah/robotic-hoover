@@ -17149,7 +17149,7 @@ function drive(navigationInstructions) {
 }
 
 function moveNorth() {
-  if (hoover.position.y === room.y) return;
+  if (hoover.position.y === room.y) return; // if it hits the wall
 
   hoover.position.y++;
   hoover.canMove = true;
@@ -17199,7 +17199,7 @@ initialize(file);
 
 function initialize(inputData) {
   const room = createRoom(inputData);
-  const hoover = positionHoover(inputData, room);
+  const hoover = startHoover(inputData, room);
   const drivingInstructions = inputData[inputData.length - 1];
 
   hoover.drive(drivingInstructions);
@@ -17211,20 +17211,20 @@ function initialize(inputData) {
   console.log('cleaned patches: ', this.cleanedPatches);
 }
 
-function createRoom(data) {
-  const roomSize = data[0].split(" ").map((n) => +n);
-  const dataLength = data.length - 1;
+function createRoom(inputData) {
+  const roomSize = inputData[0].split(" ").map((n) => +n);
+  const dataLength = inputData.length - 1;
   const room = new Room(roomSize[0], roomSize[1]);
 
   for (let i = 2; i<dataLength; i++) {
-    room.addPatch(+data[i].split(" ")[0], +data[i].split(" ")[1])
+    room.addPatch(+inputData[i].split(" ")[0], +inputData[i].split(" ")[1])
   }
 
   return room;
 }
 
-function positionHoover(data, room) {
-  const hooverInitialPosition = data[1].split(" ").map((n) => +n);
+function startHoover(inputData, room) {
+  const hooverInitialPosition = inputData[1].split(" ").map((n) => +n);
 
   return new Hoover(hooverInitialPosition[0], hooverInitialPosition[1], room);
 }
